@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+//xác thực người dùng
 const verifyToken = (req, res, next) => {
     const authHeader = req.header('Authorization')
 	const token = authHeader && authHeader.split(' ')[1]
@@ -19,4 +20,24 @@ const verifyToken = (req, res, next) => {
 	}
 }
 
-module.exports = {verifyToken}
+//kiểm tra quyền admin
+const verifyAdmin = (req, res, next) => {
+	if (req.role !== 'admin') {
+		return res
+			.status(403)
+			.json({success: false, message: 'Access denied: Admins only'})
+	}
+	next()
+}
+
+//kiểm tra quyền user
+const verifyUser = (req, res, next) => {
+	if (req.role !== 'user') {
+		return res
+			.status(403)
+			.json({success: false, message: 'Access denied: Users only'})
+	}
+	next()
+}
+
+module.exports = {verifyToken, verifyAdmin, verifyUser}
