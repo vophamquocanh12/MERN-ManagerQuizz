@@ -1,5 +1,5 @@
 const Account = require('./Account');
-const Quiz = require('./Quiz');
+const Quiz = require('./Quizz');
 const Question = require('./Question');
 const Submit = require('./Submit');
 

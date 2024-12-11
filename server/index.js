@@ -6,11 +6,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 dotenv.config()
 
+const accountRouter = require('./router/account')
 
-const app = express()
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.json())
-app.use(cors())
 
 
 const connectDB = async () => {
@@ -27,6 +24,13 @@ const connectDB = async () => {
 }
 
 connectDB()
+
+const app = express()
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.json())
+app.use(cors())
+
+app.use('/account', accountRouter)
 
 const PORT = process.env.PORT || 5000
 

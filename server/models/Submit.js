@@ -16,7 +16,17 @@ const SubmitSchema = new Schema({
 			selectedOption: String,
 		},
 	],
-	score: Number,
+	score: {
+		type: Number,
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
+	updatedAt: {
+		type: Date,
+		default: Date.now,
+	},
 })
 
 module.exports = mongoose.model('Submit', SubmitSchema)
