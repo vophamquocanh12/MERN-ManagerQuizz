@@ -7,6 +7,7 @@ const cors = require('cors')
 dotenv.config()
 
 const accountRouter = require('./router/account')
+const categoryRouter = require('./router/category')
 
 
 
@@ -31,6 +32,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/account', accountRouter)
+app.use('/category', categoryRouter)
 
 const PORT = process.env.PORT || 5000
 

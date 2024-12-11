@@ -5,9 +5,10 @@ const CategorySchema = new Schema({
 	name: {
 		type: String,
 		required: true,
-		unique: true,
-		minlength: 3,
 		maxlength: 50,
+	},
+	description: {
+		type: String,
 	},
 	createdAt: {
 		type: Date,
