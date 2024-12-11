@@ -8,7 +8,8 @@ dotenv.config()
 
 const accountRouter = require('./router/account')
 const categoryRouter = require('./router/category')
-
+const quizzesRouter = require('./router/quizz')
+const questionRouter = require('./router/questions')
 
 
 const connectDB = async () => {
@@ -33,6 +34,8 @@ app.use(cors())
 
 app.use('/account', accountRouter)
 app.use('/category', categoryRouter)
+app.use('/quizz', quizzesRouter)
+app.use('/question', questionRouter)
 
 const PORT = process.env.PORT || 5000
 
