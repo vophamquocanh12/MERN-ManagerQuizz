@@ -10,6 +10,7 @@ const accountRouter = require('./router/account')
 const categoryRouter = require('./router/category')
 const quizzesRouter = require('./router/quizz')
 const questionRouter = require('./router/questions')
+const submitRouter = require('./router/submit')
 
 
 const connectDB = async () => {
@@ -36,6 +37,7 @@ app.use('/account', accountRouter)
 app.use('/category', categoryRouter)
 app.use('/quizz', quizzesRouter)
 app.use('/question', questionRouter)
+app.use('/submit', submitRouter)
 
 const PORT = process.env.PORT || 5000
 

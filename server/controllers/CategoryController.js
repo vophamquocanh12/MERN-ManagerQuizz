@@ -78,7 +78,7 @@ const CategoryController = {
 					message: 'Category not found',
 				})
 			}
-			Cập nhật thông tin category trong các Quiz liên quan
+			// Cập nhật thông tin category trong các Quiz liên quan
 			await Quiz.updateMany(
 				{category: id},
 				{category: updatedCategory._id}
