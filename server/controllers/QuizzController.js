@@ -46,6 +46,10 @@ const QuizzController = {
 	updateQuizz: async (req, res) => {
 		const {id} = req.params
 		const {title, description, category, questions} = req.body
+
+		console.log(id)
+		console.log(title, description, category, questions)
+
 		try {
 			const updatedQuizz = await Quizz.findByIdAndUpdate(
 				id,
@@ -58,6 +62,7 @@ const QuizzController = {
 				},
 				{new: true}
 			)
+			
 			if (!updatedQuizz) {
 				return res.status(404).json({
 					success: false,
@@ -114,8 +119,14 @@ const QuizzController = {
 		const {q} = req.query
 		try {
 			const quizzes = await Quizz.find({
-				name: {$regex: q, $options: 'i'},
+				title: {$regex: q, $options: 'i'},
 			}) // Tìm kiếm theo tên
+			if(quizzes.length === 0) {
+				return res.status(404).json({
+                    success: false,
+                    message: 'No quizzes found',
+                })
+			}		
 			return res.status(200).json({
 				success: true,
 				quizzes,

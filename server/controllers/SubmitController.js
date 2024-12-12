@@ -1,4 +1,4 @@
-const {Quizz, Question} = require('../models/models')
+const {Quizz, Question, Submit} = require('../models/models')
 const mongoose = require('mongoose')
 
 const SubmitController = {
@@ -8,14 +8,16 @@ const SubmitController = {
 		const userId = req.userId
 
 		try {
-			// Tính điểm
+			// Lấy thông tin quizz và câu hỏi
 			const quizz = await Quizz.findById(quizzId).populate('questions')
 			if (!quizz)
 				return res
 					.status(404)
 					.json({success: false, message: 'Quizz not found'})
 
-			let score = 0
+			let correctAnswersCount = 0
+
+			// Duyệt qua từng câu trả lời
 			for (const answer of answers) {
 				const question = quizz.questions.find(
 					(q) => q._id.toString() === answer.question
@@ -27,10 +29,15 @@ const SubmitController = {
 							opt.text === answer.selectedOption && opt.isCorrect
 					)
 				) {
-					score++
+					correctAnswersCount++
 				}
 			}
 
+			// Tính điểm dựa trên số câu đúng và tổng số câu hỏi
+			const totalQuestions = quizz.questions.length
+			const score = (correctAnswersCount / totalQuestions) * 100
+
+			// Lưu kết quả nộp bài
 			const newSubmit = new Submit({
 				user: userId,
 				quizz: quizzId,
@@ -38,6 +45,7 @@ const SubmitController = {
 				score,
 			})
 			await newSubmit.save()
+
 			res.json({
 				success: true,
 				message: 'Quizz submitted',
