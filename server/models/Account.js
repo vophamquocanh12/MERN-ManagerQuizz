@@ -33,11 +33,6 @@ const AccountSchema = new Schema(
 			enum: ['admin', 'user'],
 			default: 'user',
 		},
-		role: {
-			type: String,
-			enum: ['admin', 'user'],
-			default: 'user',
-		},
 	},
 	{timestamps: true}
 )
