@@ -1,11 +1,10 @@
-const {Quizz, Account, Category} = require('../models/models')
+const {Quizz, Category, Question} = require('../models/models')
 const mongoose = require('mongoose')
-
 
 const QuizzController = {
 	// TẠO MỚI QUIZZ
 	createQuizz: async (req, res) => {
-		const {title, description, category, questions} = req.body
+		const {title, description, category} = req.body
 		if (!title) {
 			return res.status(400).json({
 				success: false,
@@ -21,18 +20,20 @@ const QuizzController = {
 					message: 'Category does not exist',
 				})
 			}
+
 			// tạo quizz
 			const newQuizz = new Quizz({
 				title,
 				description,
 				category,
-				questions,
 				createdBy: req.userId,
 			})
+			
 			await newQuizz.save()
 			return res.status(200).json({
 				success: true,
 				message: 'Quizz created successfully',
+				newQuizz
 			})
 		} catch (error) {
 			return res.status(400).json({
@@ -46,13 +47,13 @@ const QuizzController = {
 		const {id} = req.params
 		const {title, description, category, questions} = req.body
 		try {
-			const updatedQuizz = await Quizz.findById(
+			const updatedQuizz = await Quizz.findByIdAndUpdate(
 				id,
 				{
 					title,
 					description,
 					category,
-					questions,
+					questions, // Cập nhật câu hỏi liên kết với quizz
 					updatedAt: Date.now(),
 				},
 				{new: true}
@@ -63,9 +64,20 @@ const QuizzController = {
 					message: 'Quizz not found',
 				})
 			}
+
+			// Liên kết câu hỏi với quizz nếu cần
+			for (let questionId of questions) {
+				const question = await Question.findById(questionId)
+				if (question && !updatedQuizz.questions.includes(questionId)) {
+					updatedQuizz.questions.push(questionId) // Thêm câu hỏi vào quizz
+				}
+			}
+
+			await updatedQuizz.save()
+
 			return res.status(200).json({
 				success: true,
-				message: 'Quizz updated successfully',
+				message: 'Quizz updated and linked to questions successfully',
 				quizz: updatedQuizz,
 			})
 		} catch (error) {

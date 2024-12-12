@@ -1,24 +1,20 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const QuestionSchema = new Schema({
-	questionText: {
-		type: String,
-		required: true,
-	},
-	options: [
-		{
-			text: String,
-			isCorrect: Boolean,
+const QuestionSchema = new Schema(
+	{
+		questionText: {
+			type: String,
+			required: true,
 		},
-	],
-	createdAt: {
-		type: Date,
-		default: Date.now,
+		options: [
+			{
+				text: {type: String, required: true},
+				isCorrect: {type: Boolean, required: true},
+			},
+		],
+		
 	},
-	updatedAt: {
-		type: Date,
-		default: Date.now,
-	},
-})
+	{timestamps: true}
+)
 module.exports = mongoose.model('Question', QuestionSchema)

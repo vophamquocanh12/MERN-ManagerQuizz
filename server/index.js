@@ -9,7 +9,7 @@ dotenv.config()
 const accountRouter = require('./router/account')
 const categoryRouter = require('./router/category')
 const quizzesRouter = require('./router/quizz')
-const questionRouter = require('./router/questions')
+const questionRouter = require('./router/question')
 const submitRouter = require('./router/submit')
 
 

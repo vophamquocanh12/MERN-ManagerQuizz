@@ -2,22 +2,22 @@ const {Quizz, Question} = require('../models/models')
 const mongoose = require('mongoose')
 
 const SubmitController = {
-	// Nộp bài quiz (User only)
+	// Nộp bài quizz (User only)
 	submitQuiz: async (req, res) => {
 		const {quizzId, answers} = req.body
 		const userId = req.userId
 
 		try {
 			// Tính điểm
-			const quiz = await Quiz.findById(quizzId).populate('questions')
-			if (!quiz)
+			const quizz = await Quizz.findById(quizzId).populate('questions')
+			if (!quizz)
 				return res
 					.status(404)
-					.json({success: false, message: 'Quiz not found'})
+					.json({success: false, message: 'Quizz not found'})
 
 			let score = 0
 			for (const answer of answers) {
-				const question = quiz.questions.find(
+				const question = quizz.questions.find(
 					(q) => q._id.toString() === answer.question
 				)
 				if (
@@ -40,7 +40,7 @@ const SubmitController = {
 			await newSubmit.save()
 			res.json({
 				success: true,
-				message: 'Quiz submitted',
+				message: 'Quizz submitted',
 				submit: newSubmit,
 			})
 		} catch (error) {
@@ -49,7 +49,7 @@ const SubmitController = {
 		}
 	},
 
-	// Lấy kết quả bài quiz (Admin hoặc User xem bài của mình)
+	// Lấy kết quả bài quizz (Admin hoặc User xem bài của mình)
 	getQuizResults: async (req, res) => {
 		try {
 			const userId = req.role === 'admin' ? req.query.userId : req.userId

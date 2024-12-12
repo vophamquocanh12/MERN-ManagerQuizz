@@ -1,4 +1,4 @@
-const {Category} = require('../models/models')
+const {Category, Quizz} = require('../models/models')
 const mongoose = require('mongoose')
 
 const CategoryController = {
@@ -78,8 +78,8 @@ const CategoryController = {
 					message: 'Category not found',
 				})
 			}
-			// Cập nhật thông tin category trong các Quiz liên quan
-			await Quiz.updateMany(
+			// Cập nhật thông tin category trong các Quizz liên quan
+			await Quizz.updateMany(
 				{category: id},
 				{category: updatedCategory._id}
 			)

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {verifyToken, verifyAdmin} = require('../middlewares/auth')
 
-const QuizzController = require('./controllers/QuizzController')
+const QuizzController = require('../controllers/QuizzController')
 
 // Admin: Tạo mới Quizz
 router.post('/', verifyToken, verifyAdmin, QuizzController.createQuizz)
@@ -11,7 +11,7 @@ router.put('/:id', verifyToken, verifyAdmin, QuizzController.updateQuizz)
 // Admin: Xóa Quizz
 router.delete('/:id', verifyToken, verifyAdmin, QuizzController.deleteQuizz)
 // User: Tìm kiếm Quizz theo tên
-router.get('/search', verifyToken, searchQuizzes)
+router.get('/search', verifyToken, QuizzController.searchQuizzes)
 // User: Lấy danh sách Quizz (có sắp xếp)
 router.get('/', verifyToken, QuizzController.getAllQuizzes)
 // User: Lấy danh sách Quizz thuộc một Category

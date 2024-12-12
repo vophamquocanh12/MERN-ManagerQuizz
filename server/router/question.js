@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {verifyToken, verifyAdmin} = require('../middlewares/auth')
 
-const QuestionController = require('./controllers/QuestionController')
+const QuestionController = require('../controllers/QuestionsController')
 
 // Admin: Tạo mới câu hỏi
 router.post('/', verifyToken, verifyAdmin, QuestionController.createQuestion);
